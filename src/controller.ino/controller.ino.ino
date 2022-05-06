@@ -79,8 +79,8 @@ void loop() {
 
   digitalWrite(a2, HIGH); //Start second motor
   digitalWrite(a3, LOW);
-  Ms=1;
-  dir=1;
+  Ms=0;
+  dir=0;
 }
 
 if (request.indexOf("/stop=1") != -1)  {  
@@ -94,30 +94,16 @@ if (request.indexOf("/stop=1") != -1)  {
 
 if (request.indexOf("/tog=1") != -1)  {
   digitalWrite(a0, LOW);  //Change First motor rotation direction
-  delay(5000); //5 seconds delay
+
   digitalWrite(a1, HIGH);
   
   digitalWrite(a2, LOW); //Change Second motor rotation direction
-  delay(5000); //5 seconds delay
+
   digitalWrite(a3, HIGH);
   dir=0;
 }
 
-if (request.indexOf("/Req=2") != -1)  {  
-analogWrite(Pwm1, 767);  //Pwm duty cycle 75%
-analogWrite(Pwm2, 767);  //Pwm duty cycle 75%
-Pw=1;
-}
-if (request.indexOf("/Req=3") != -1)  { 
-analogWrite(Pwm1, 512);  //Pwm duty cycle 50%
-analogWrite(Pwm2, 512);  //Pwm duty cycle 50%
-Pw=2;
-}
-if (request.indexOf("/Req=4") != -1)  {  
-analogWrite(Pwm1, 255);  //Pwm duty cycle 25%
-analogWrite(Pwm2, 255);  //Pwm duty cycle 25%
-Pw=3;
-}
+
 
   // Return the response
   client.println("HTTP/1.1 200 OK");
@@ -130,9 +116,7 @@ Pw=3;
   client.println("<a href=\"/start=1\"\"><button>Start Motor </button></a><br/>");
   client.println("<a href=\"/stop=1\"\"><button>Stop Motor </button></a><br/>");
   client.println("<a href=\"/tog=1\"\"><button>Toggle Direction</button></a><br/>");
-  client.println("<a href=\"/Req=2\"\"><button>Duty cycle 75% </button></a><br/>");
-  client.println("<a href=\"/Req=3\"\"><button>Duty cycle 50% </button></a><br/>");
-  client.println("<a href=\"/Req=4\"\"><button>Duty cycle 25% </button></a><br/>");
+
 
   if(Ms==1){
     client.println("Motor Powered Working<br/>" );
@@ -146,20 +130,7 @@ Pw=3;
     else
     client.println("Motor rotating in backward direction<br/>" );
 
-switch(Pw){
-      case 1:
-        client.println("Pwm duty cycle 75%<br/>" );
-        break;
-      case 2:
-        client.println("Pwm duty cycle 50%<br/>" );
-        break;  
-      case 3:
-        client.println("Pwm duty cycle 25%<br/>" );
-        break; 
-         
-      default:
-        client.println("Pwm duty cycle 100%<br/>" );
-  }
+
   
   client.println("</html>");
   delay(1);
